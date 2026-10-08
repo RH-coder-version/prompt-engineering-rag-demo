@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict');
+const {retrieve,checklistScore}=require('./core.js');
+const kb=require('./knowledge-base.json');
+assert.deepEqual(retrieve(kb,'联邦学习 移动场景 本地训练 聚合机制 数据异质性 通信挑战').map(x=>x.id),['FL-02','FL-03','FL-01']);
+assert.deepEqual(retrieve(kb,'量子纠缠'),[]);
+assert.equal(checklistScore([1,1,0,0,0,0,0,0,0,0]),20);
+assert.equal(checklistScore(Array(10).fill(1)),100);
+assert.equal(checklistScore([1,1,1,1,1,1,1,1,0,0]),80);
+assert.throws(()=>checklistScore([1,2]));
+console.log('All retrieval and checklist tests passed');

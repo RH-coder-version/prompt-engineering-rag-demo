@@ -1,0 +1,53 @@
+[
+  {
+    "id": "FL-01",
+    "text": "移动设备拥有适于学习的数据，但数据规模及隐私敏感性可能限制集中收集。",
+    "tags": [
+      "移动",
+      "场景",
+      "背景",
+      "数据",
+      "隐私"
+    ],
+    "source": "McMahan et al. (2017), Abstract, 第1段",
+    "url": "https://proceedings.mlr.press/v54/mcmahan17a.html"
+  },
+  {
+    "id": "FL-02",
+    "text": "训练数据保留在设备上，通过汇总本地计算的模型更新学习共享模型。",
+    "tags": [
+      "联邦",
+      "本地",
+      "训练",
+      "机制",
+      "聚合",
+      "数据"
+    ],
+    "source": "McMahan et al. (2017), Abstract, 第2段",
+    "url": "https://proceedings.mlr.press/v54/mcmahan17a.html"
+  },
+  {
+    "id": "FL-03",
+    "text": "该研究考虑不平衡与非独立同分布的数据，并将通信成本作为主要约束。",
+    "tags": [
+      "挑战",
+      "通信",
+      "成本",
+      "异质",
+      "数据"
+    ],
+    "source": "McMahan et al. (2017), Abstract, 第3段",
+    "url": "https://proceedings.mlr.press/v54/mcmahan17a.html"
+  },
+  {
+    "id": "EV-01",
+    "text": "G-Eval 使用明确标准和评价步骤评价生成文本。",
+    "tags": [
+      "评分",
+      "评价",
+      "连贯"
+    ],
+    "source": "Liu et al. (2023), G-Eval",
+    "url": "https://aclanthology.org/2023.emnlp-main.153/"
+  }
+]
