@@ -44,3 +44,9 @@ RAG 使用四条人工核验的中文摘要片段、关键词匹配 Top-3，不�
 ## 开源地址
 
 https://github.com/RH-coder-version/prompt-engineering-rag-demo
+
+## Windows 风格界面
+
+采用 Windows Fluent 风格的侧栏、工具栏、明显的文本输入框和蓝色焦点状态。提示词与待评文本均可编辑；修改待评文本会清空旧勾选和分数，必须重新人工核验。支持恢复本轮样例、保留各轮临时草稿、导出 JSON。浏览器刷新会重置草稿。
+
+`windows.css` 为共用样式；`legacy-windows.css` 统一评分与RAG页。设计参考：https://learn.microsoft.com/en-us/windows/apps/develop/ui/controls/text-box
