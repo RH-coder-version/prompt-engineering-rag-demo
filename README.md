@@ -1,52 +1,44 @@
-# 提示词工程 × RAG 课堂实验台
+# Prompt Lab：DeepSeek 真实提示词实验
 
-面向 8–10 分钟课堂汇报的离线教学 Demo：四轮提示词、评分公式、逐项核对、简化 RAG。
+西安工程大学课堂展示。Windows 风格界面，真实 DeepSeek API 生成、RAG 证据、论文方法改编的重复评价。MIT 许可。
 
-## 直接运行
+## 启动
 
-下载项目后双击 `index.html`。无需安装、注册或 API Key，不上传输入文本。
-也可以在项目目录运行 `python -m http.server 8000` 后打开 http://localhost:8000 。
+需要 Python 3.10+，仅使用标准库，无须 pip 安装。
 
-## 界面与操作
+```text
+python server.py
+```
 
-1. `scoring.html`：论文评分公式与课堂核对表。修改离散评分，查看频率与加权均值。
-2. `rounds.html`：上方切换四轮；左侧要求、中间样例、右侧核对结果。点击运行后汇总分数；下方可修改人工判断。
-3. `rag.html`：输入查询→检索证据→组装增强提示词→查看匹配的生成记录。改为无关查询时没有证据，不生成提示词。
+在终端隐藏输入自己的 API Key，打开 http://127.0.0.1:8766/live.html。也支持 DEEPSEEK_API_KEY 环境变量。密钥只在本地进程内，不写入前端、记录或仓库。直接双击 HTML 不能调用 API。服务仅监听本机，拒绝跨域写请求。
 
-## 关键源码
+## 本次实测
 
-- `core.js`：实际被界面调用的关键词检索和十项评分函数。
-- `rounds.js`：样例、操作状态与评分显示。
-- `scoring.js`：G-Eval 加权计算的构造数据演示及人工核对记录。
-- `rag.js`：知识库、增强提示词组装和生成记录回放。
-- `knowledge-base.json`：知识库副本，供阅读与测试；浏览器使用 rag.js 内嵌数据以支持直接双击打开。
+2026-10-08：5 条件 × 3 篇独立生成 × 20 次评判。300 次评分中 299 次有效；R2 第 1 篇为 19 次有效，其余均为 20 次。一次传输中断只恢复缺失请求，原始失败记录保留。生成 deepseek-flash（T=0.7），评价 deepseek-v4-pro（T=1），均关闭思考模式。
 
-## 测试
+| 条件 | 连贯性 | 事实一致性 | 表达流畅性 | 任务相关性 |
+|---|---|---|---|---|
+| R1 | 3.65 ± 0.39 | 3.13 ± 0.80 | 4.08 ± 0.18 | 3.77 ± 0.51 |
+| R2 | 3.61 ± 0.04 | 3.85 ± 0.05 | 4.15 ± 0.14 | 3.56 ± 0.04 |
+| R3 | 3.85 ± 0.18 | 4.22 ± 0.08 | 4.52 ± 0.25 | 3.87 ± 0.13 |
+| R4 | 3.78 ± 0.14 | 4.25 ± 0.13 | 4.28 ± 0.08 | 4.10 ± 0.30 |
+| R4 + RAG | 3.98 ± 0.16 | 4.53 ± 0.03 | 4.52 ± 0.06 | 4.18 ± 0.26 |
 
-安装 Node.js 后运行 `node core.test.cjs`。浏览器端无需 Node.js。
+四维各 1–5 分。先按每篇有效评分求均值，再报告 3 篇之间的均值 ± 样本标准差。20 次评判不是 20 篇独立样本。结果不单调，不做显著性或普遍提升结论。
 
-## 材料与限制
+## 方法与限制
 
-四轮文本是教学样例；20、40、80、100 分是人工核对记录加总，不是平台重复实验或模型自动质量评分。十项百分制是课堂自定清单，不是 G-Eval 论文原量表。
+参考 [Liu et al. (2023), G-Eval](https://aclanthology.org/2023.emnlp-main.153/) 的多维评价、评价步骤与采样加权方法。中文引言锚点、统一四维 1–5 分、一次 JSON 返回四维和 DeepSeek 模型均为本实验改编，不是原论文复现，也未经人工一致性验证。
 
-RAG 使用四条人工核验的中文摘要片段、关键词匹配 Top-3，不是完整论文解析、向量检索或原始 RAG 模型复现。查询和提示词组装真实执行；生成记录由 AI 在对话中依据证据撰写，按钮只回放。没有在线 LLM 服务。RAG 不保证事实正确，仍需人工核验来源与引用支持。
+固定评分锚点、提示词和参数在 protocol.json。评价隐藏条件标签，参考材料相同。同系列模型仍有评价偏差；证据只覆盖短摘要；字数约束未完全执行；不同轮次改变多项要求，不能识别单一因素的因果效应。RAG 是关键词检索 Top-3 核验片段，不能保证事实正确。基础来源为 [McMahan et al. (2017)](https://proceedings.mlr.press/v54/mcmahan17a.html)。
 
-## 文献
+## 源码
 
-- Liu et al. (2023), G-Eval. https://aclanthology.org/2023.emnlp-main.153/
-- McMahan et al. (2017), Communication-Efficient Learning of Deep Networks from Decentralized Data. https://proceedings.mlr.press/v54/mcmahan17a.html
-- Lewis et al. (2020), Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. https://arxiv.org/abs/2005.11401
+- engine.py：官方 API 请求、网络重试、实验生成与评价、统计汇总。
+- server.py：本地 API 代理、源与令牌检查、结果读取。
+- live.html / live.js / windows.css：可编辑提示词、实际输出、评分和汇总界面。
+- protocol.json：完整锚点、实验参数及 RAG 提示词。
 
-## 许可
+点击“开始完整实验”会产生 API 费用（316 个计划请求，重试可能增加）；查看保存的样本不会调用模型。实测记录本地保存至 records/，latest-results.json 用于恢复界面。仓库的 experiment-results.json 是公开实测归档，复制为 latest-results.json 即可载入，不需要重新生成。
 
-原创程序代码采用 MIT 许可；第三方论文、引文与相关材料不因本仓库许可改变其原有权利。项目不附带论文全文。
-
-## 开源地址
-
-https://github.com/RH-coder-version/prompt-engineering-rag-demo
-
-## Windows 风格界面
-
-采用 Windows Fluent 风格的侧栏、工具栏、明显的文本输入框和蓝色焦点状态。提示词与待评文本均可编辑；修改待评文本会清空旧勾选和分数，必须重新人工核验。支持恢复本轮样例、保留各轮临时草稿、导出 JSON。浏览器刷新会重置草稿。
-
-`windows.css` 为共用样式；`legacy-windows.css` 统一评分与RAG页。设计参考：https://learn.microsoft.com/en-us/windows/apps/develop/ui/controls/text-box
+旧 rounds.html / scoring.html / rag.html / core.js 是早期教学样例，未用于本次实测统计；新版入口为 live.html。旧百分制清单不是论文量表。

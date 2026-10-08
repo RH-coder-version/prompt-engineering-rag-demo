@@ -1,0 +1,142 @@
+{
+  "version": "1.0",
+  "topic": "联邦学习基础机制与挑战的综述式引言",
+  "generation_model": "deepseek-flash",
+  "judge_model": "deepseek-v4-pro",
+  "generation_temperature": 0.7,
+  "judge_temperature": 1.0,
+  "thinking": "disabled",
+  "generations_per_condition": 3,
+  "judgments_per_text": 20,
+  "dimensions": [
+    "coherence",
+    "consistency",
+    "fluency",
+    "relevance"
+  ],
+  "primary": "coherence",
+  "scale": [
+    1,
+    5
+  ],
+  "source": "https://aclanthology.org/2023.emnlp-main.153/",
+  "adaptation": "中文引言任务；四维统一1—5分锚点为本实验改编；不同DeepSeek模型生成与评分；一次JSON同时评分四维；非原论文复现。",
+  "analysis": "先在每篇文本内对20次评判按频率加权；再按条件计算3篇文本均值及样本标准差。评判重复不是独立生成样本；不做显著性结论。",
+  "conditions": [
+    {
+      "id": "R1",
+      "prompt": "帮我写一段关于联邦学习的论文引言。"
+    },
+    {
+      "id": "R2",
+      "prompt": "你是一名学术写作助教。请写一段关于联邦学习的综述式论文引言，约 150 字，使用书面语言。"
+    },
+    {
+      "id": "R3",
+      "prompt": "你是一名学术写作助教。请写一段关于联邦学习的综述式论文引言，约 150—200 字。按背景、问题、本文工作组织，使用客观学术语言。本文工作限定为原理梳理与挑战讨论，不得虚构实验或新算法。"
+    },
+    {
+      "id": "R4",
+      "prompt": "你是一名学术写作助教。请写一段约 150—200 字的联邦学习综述式引言，依次写背景、问题和本文工作。必须包含本地数据、本地训练、模型聚合、移动终端场景、数据异质性和通信成本。仅使用给定文献[1]，在受其支持的事实后标注[1]，文后按作者、题名、会议、年份、页码列出参考文献。使用客观语言，不虚构成果，不将数据留在本地等同于完整隐私保障。给定文献：McMahan et al., Communication-Efficient Learning of Deep Networks from Decentralized Data, AISTATS, 2017, 1273–1282。"
+    },
+    {
+      "id": "R4_RAG",
+      "prompt": "你是一名学术写作助教。请写一段约 150—200 字的联邦学习综述式引言，依次写背景、问题和本文工作。必须包含本地数据、本地训练、模型聚合、移动终端场景、数据异质性和通信成本。仅使用给定文献[1]，在受其支持的事实后标注[1]，文后按作者、题名、会议、年份、页码列出参考文献。使用客观语言，不虚构成果，不将数据留在本地等同于完整隐私保障。给定文献：McMahan et al., Communication-Efficient Learning of Deep Networks from Decentralized Data, AISTATS, 2017, 1273–1282。\n额外检索证据如下。只据有支持的材料陈述事实，缺证据不得编造；引用编号仍为[1]。\n[FL-02] 训练数据保留在设备上，通过汇总本地计算的模型更新学习共享模型。 来源：McMahan et al. (2017), Abstract, 第2段 https://proceedings.mlr.press/v54/mcmahan17a.html\n[FL-03] 该研究考虑不平衡与非独立同分布的数据，并将通信成本作为主要约束。 来源：McMahan et al. (2017), Abstract, 第3段 https://proceedings.mlr.press/v54/mcmahan17a.html\n[FL-01] 移动设备拥有适于学习的数据，但数据规模及隐私敏感性可能限制集中收集。 来源：McMahan et al. (2017), Abstract, 第1段 https://proceedings.mlr.press/v54/mcmahan17a.html",
+      "retrieval": {
+        "query": "联邦学习 移动场景 本地训练 聚合机制 数据异质性 通信挑战",
+        "hits": [
+          {
+            "id": "FL-02",
+            "text": "训练数据保留在设备上，通过汇总本地计算的模型更新学习共享模型。",
+            "tags": [
+              "联邦",
+              "本地",
+              "训练",
+              "机制",
+              "聚合",
+              "数据"
+            ],
+            "source": "McMahan et al. (2017), Abstract, 第2段",
+            "url": "https://proceedings.mlr.press/v54/mcmahan17a.html",
+            "score": 6
+          },
+          {
+            "id": "FL-03",
+            "text": "该研究考虑不平衡与非独立同分布的数据，并将通信成本作为主要约束。",
+            "tags": [
+              "挑战",
+              "通信",
+              "成本",
+              "异质",
+              "数据"
+            ],
+            "source": "McMahan et al. (2017), Abstract, 第3段",
+            "url": "https://proceedings.mlr.press/v54/mcmahan17a.html",
+            "score": 4
+          },
+          {
+            "id": "FL-01",
+            "text": "移动设备拥有适于学习的数据，但数据规模及隐私敏感性可能限制集中收集。",
+            "tags": [
+              "移动",
+              "场景",
+              "背景",
+              "数据",
+              "隐私"
+            ],
+            "source": "McMahan et al. (2017), Abstract, 第1段",
+            "url": "https://proceedings.mlr.press/v54/mcmahan17a.html",
+            "score": 3
+          }
+        ]
+      }
+    }
+  ],
+  "reference_context": "[FL-02] 训练数据保留在设备上，通过汇总本地计算的模型更新学习共享模型。 来源：McMahan et al. (2017), Abstract, 第2段 https://proceedings.mlr.press/v54/mcmahan17a.html\n[FL-03] 该研究考虑不平衡与非独立同分布的数据，并将通信成本作为主要约束。 来源：McMahan et al. (2017), Abstract, 第3段 https://proceedings.mlr.press/v54/mcmahan17a.html\n[FL-01] 移动设备拥有适于学习的数据，但数据规模及隐私敏感性可能限制集中收集。 来源：McMahan et al. (2017), Abstract, 第1段 https://proceedings.mlr.press/v54/mcmahan17a.html",
+  "rubric": {
+    "coherence": {
+      "name": "连贯性",
+      "criterion": "信息组织、句间衔接与背景—问题—本文范围的逻辑。",
+      "anchors": [
+        "结构散乱，句子无法组成连贯论述",
+        "有主题但跳跃明显，核心逻辑关系缺失",
+        "整体可理解，有部分衔接或范围缺口",
+        "组织清晰，背景问题工作基本衔接，仅有轻微不足",
+        "结构紧密、衔接自然，论述范围清楚，无明显逻辑缺口"
+      ]
+    },
+    "consistency": {
+      "name": "事实一致性",
+      "criterion": "事实与给定参考材料一致，不夸大隐私保证或虚构成果；未被材料支持不等于必然错误，但应保守描述并指出证据缺口。",
+      "anchors": [
+        "核心事实错误或虚构研究成果",
+        "至少一处实质错误、绝对化保证或重要无依据断言",
+        "基本正确，但存在需额外来源支撑的重要断言",
+        "主要事实有依据，仅个别轻微表述需限定",
+        "事实与证据一致、限定恰当，没有实质无依据断言"
+      ]
+    },
+    "fluency": {
+      "name": "表达流畅性",
+      "criterion": "语法、用词与书面表达；不因术语多或文字长加分。",
+      "anchors": [
+        "大量语病严重妨碍理解",
+        "明显语病、口语或冗余频繁影响阅读",
+        "基本通顺，仍有若干笨拙或空泛表述",
+        "语言规范清楚，仅有轻微冗余或措辞问题",
+        "表达准确简洁，语法与书面风格稳定"
+      ]
+    },
+    "relevance": {
+      "name": "任务相关性",
+      "criterion": "面向基础综述式引言，涵盖必要背景、机制、挑战与本文范围，避免离题或重复；不要因为没有引用编号直接扣分。",
+      "anchors": [
+        "偏离主题或无法作为引言",
+        "主题相关但关键内容大量缺失",
+        "主要内容相关，但有一个明显缺口或较多泛述",
+        "覆盖主要任务内容，仅有轻微缺口或冗余",
+        "紧扣主题且信息充分，范围适当、无明显离题重复"
+      ]
+    }
+  }
+}

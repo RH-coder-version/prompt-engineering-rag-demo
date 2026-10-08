@@ -1,5 +1,6 @@
-node_modules/
+records/
+latest-results.json
 .env
 .env.*
+__pycache__/
 *.log
-.DS_Store
